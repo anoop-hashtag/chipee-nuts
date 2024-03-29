@@ -176,8 +176,18 @@
                 <dd class="col-4">-{{ \App\CentralLogics\Helpers::set_symbol($order['extra_discount']) }}</dd>
                     <dt class="col-8">{{translate('Tax')}} / {{translate('GST')}}:</dt>
                     <dd class="col-4">{{\App\CentralLogics\Helpers::set_symbol($total_tax + $add_ons_tax_cost)}}</dd>
-                    <dt class="col-8">{{translate('Packing Fee')}}:</dt>
-                <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee'])}}</dd>
+                    @if($order['packing_fee']==0.00)
+                    <dt class="col-8">{{ translate('') }}</dt>
+                    <dd class="col-4"></dd>
+                   
+                @else
+              
+                <dt class="col-8">{{ translate('Packing Fee') }}:</dt>
+                <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                @endif
+                
+                
+
                     @if($order['order_type']=='delivery')
                     <dt class="col-8">{{translate('Delivery Fee:')}}</dt>
                 

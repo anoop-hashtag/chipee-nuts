@@ -243,6 +243,16 @@
                                         <input type="text" name="phone" class="form-control" value="" placeholder="Phone" required="">
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="input-label">
+                                            {{translate('GSTIN')}}
+                                            <small class="text-danger" style="margin-top: 3px;"> </small>
+                                            <span class="input-label-secondary text-danger"></span>
+                                        </label>
+                                        <input type="text" name="gst_number" class="form-control" value="" placeholder="{{translate('GSTIN')}}">
+                                    </div>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <button type="reset" class="btn btn-secondary mr-1">{{translate('reset')}}</button>

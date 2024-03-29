@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Branch', 'as' => 'branch.'], function () {
             Route::post('empty-cart', 'POSController@emptyCart')->name('emptyCart');
             Route::post('tax', 'POSController@update_tax')->name('tax');
             Route::post('discount', 'POSController@update_discount')->name('discount');
+            Route::post('packing_fee', 'POSController@update_packing')->name('packing_fee');
             Route::get('customers', 'POSController@get_customers')->name('customers');
             Route::post('order', 'POSController@place_order')->name('order');
             Route::get('orders', 'POSController@order_list')->name('orders');

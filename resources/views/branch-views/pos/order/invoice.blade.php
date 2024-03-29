@@ -15,6 +15,10 @@
             {{translate('Phone')}}
             : {{\App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value}}
         </h5>
+        <h5 style="font-size: 16px;font-weight: lighter;line-height: 1">
+            {{translate('GSTIN')}}
+            : {{\App\Model\BusinessSetting::where(['key'=>'gst_number'])->first()->value}}
+        </h5>
     </div>
 
     <span>--------------------------------------</span>
@@ -27,12 +31,28 @@
                 {{date('d/M/Y h:i a',strtotime($order['created_at']))}}
             </h5>
         </div>
+
         @if($order->customer)
-            <div class="col-12 ">
+            <div class="col-12">
                 <h5>{{translate('Customer Name')}} : {{$order->customer['f_name'].' '.$order->customer['l_name']}}</h5>
                 <h5>{{translate('Phone')}} : {{$order->customer['phone']}}</h5>
             </div>
+        @else
+            <div class="col-12">
+                <h5>{{translate('Customer Name')}} : Walking Customer</h5>
+                <h5>{{translate('Phone')}} : (XXX)-XXX-XXX </h5>
+            </div>
         @endif
+
+        @if(isset($order->customer['gst_number']) && !empty($order->customer['gst_number']))
+    <div class="col-12">
+        <h5>{{translate('GSTIN')}} : {{$order->customer['gst_number']}}</h5>
+    </div>
+@else
+    <div class="col-12">
+       
+    </div>       
+    @endif
     </div>
     <h5 class="text-uppercase"></h5>
     <span>--------------------------------------</span>
@@ -162,10 +182,19 @@
                         @php($del_c=$order['delivery_charge'])
                     @endif
                     {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
+                    @if($order['packing_fee']==0.00)
+                    <dt class="col-8">{{ translate('') }}</dt>
+                    <dd class="col-4"></dd>
+                   
+                @else
+              
+                <dt class="col-8">{{ translate('Packing Fee') }}:</dt>
+                <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                @endif
                     <hr>
                 </dd>
                 <dt class="col-6" style="font-size: 20px">{{translate('Total')}}:</dt>
-                <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($order->order_amount) }}</dd>
+                <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($order->order_amount+$order['packing_fee']) }}</dd>
 
                 <!-- partial payment-->
                 @if ($order->order_partial_payments->isNotEmpty())

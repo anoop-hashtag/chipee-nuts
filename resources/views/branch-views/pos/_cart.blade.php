@@ -100,6 +100,7 @@ $discount_amount += $discount_on_product;
 $total -= $discount_amount;
 
 $extra_discount = session()->get('cart')['extra_discount'] ?? 0;
+$packing_fee    = session()->get('cart')['packing_fee'] ?? 0;
 $extra_discount_type = session()->get('cart')['extra_discount_type'] ?? 'amount';
 if($extra_discount_type == 'percent' && $extra_discount > 0){
     $extra_discount = ($subtotal * $extra_discount) / 100;
@@ -151,9 +152,15 @@ if (session()->get('order_type') == 'home_delivery'){
 
         <dt  class="col-6">{{translate('Delivery Charge')}} :</dt>
         <dd class="col-6 text-right"> {{ \App\CentralLogics\Helpers::set_symbol(round($delivery_charge,2)) }}</dd>
+        <dt  class="col-6">{{translate('Packing')}} {{translate('Amount')}} :</dt>
+            <dd class="col-6 text-right">
+                <button class="btn btn-sm" type="button" data-toggle="modal" data-target="#add-packing_fee">
+                    <i class="tio-edit"></i>
+                </button> {{ \App\CentralLogics\Helpers::set_symbol($packing_fee)}}
+            </dd>
 
         <dt  class="col-6 border-top font-weight-bold pt-2">{{translate('total')}} : </dt>
-        <dd class="col-6 text-right border-top font-weight-bold pt-2">{{ \App\CentralLogics\Helpers::set_symbol(round($total+$total_tax+$addon_total_tax, 2)) }}</dd>
+        <dd class="col-6 text-right border-top font-weight-bold pt-2">{{ \App\CentralLogics\Helpers::set_symbol(round($total+$total_tax+$addon_total_tax+$packing_fee, 2)) }}</dd>
     </dl>
 
     <form action="{{route('branch.pos.order')}}" id='order_place' method="post">
@@ -193,6 +200,46 @@ if (session()->get('order_type') == 'home_delivery'){
         </div>
     </form>
 </div>
+
+<div class="modal fade" id="add-packing_fee" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{translate('update_packing_fee')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('branch.pos.packing_fee')}}" method="post" class="row mb-0">
+                    @csrf
+                    <div class="form-group col-sm-6">
+                        <label class="text-dark">{{translate('Packing_fee')}}</label>
+                        <input type="text" class="form-control" name="packing_fee" value="{{ session()->get('cart')['packing_fee'] ?? 0 }}">
+                    </div>
+                    
+                    {{-- <div class="form-group col-sm-6">
+                        <label class="text-dark">{{translate('type')}}</label>
+                        <select name="type" class="form-control">
+                            <option
+                                value="amount" {{$extra_discount_type=='amount'?'selected':''}}>{{translate('amount')}}
+                                ({{\App\CentralLogics\Helpers::currency_symbol()}})
+                            </option>
+                            <option
+                                value="percent" {{$extra_discount_type=='percent'?'selected':''}}>{{translate('percent')}}
+                                (%)
+                            </option>
+                        </select>
+                    </div> --}}
+                    <div class="d-flex justify-content-end col-sm-12">
+                        <button class="btn btn-sm btn-primary" type="submit">{{translate('submit')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="add-discount" tabindex="-1">
     <div class="modal-dialog">
