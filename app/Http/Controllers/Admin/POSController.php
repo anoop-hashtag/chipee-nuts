@@ -312,10 +312,48 @@ class POSController extends Controller
         $cart = $request->session()->get('cart', collect([]));
         $cart['extra_discount_type'] = $request->type;
         $cart['extra_discount'] = $request->discount;
+       
 
         $request->session()->put('cart', $cart);
         return back();
     }
+
+    public function update_packing(Request $request)
+    {
+
+        if (!$request->session()->has('cart') || count($request->session()->get('cart')) < 1) {
+            Toastr::error(translate('cart_empty_warning'));
+            return back();
+        }
+    
+        $total_price = 0;
+    
+        // Calculate total price considering packing fees
+        foreach ($request->session()->get('cart') as $cart) {
+            if (isset($cart['price'], $cart['packing_fee'])) {
+                $total_price += ($cart['price'] + $cart['packing_fee']);
+            }
+        }
+    
+        // Check if the type is 'amount' and the provided packing fee is more than the total price
+        if ($request->type == 'amount' && $request->packing_fee > $total_price) {
+            Toastr::error(translate('Extra_discount_can_not_be_more_total_product_price'));
+            return back();
+        }
+        // dd($request->session()->get('cart'));
+        // Update cart with extra discount type and packing fee
+        $cart = $request->session()->get('cart', collect([]));
+        $cart = $request->session()->get('cart');
+        $cart['packing_fee'] = $request->input('packing_fee');
+    
+        $request->session()->put('cart', $cart);
+    
+        return back();
+    }
+    
+
+    
+    
 
     /**
      * @param Request $request
@@ -668,6 +706,12 @@ class POSController extends Controller
             $extra_discount = $cart['extra_discount_type'] == 'percent' && $cart['extra_discount'] > 0 ? (($total_product_main_price * $cart['extra_discount']) / 100) : $cart['extra_discount'];
             $total_price -= $extra_discount;
         }
+        if (isset($cart['packing_fee'])) {
+            $packing_fee = $cart['packing_fee'];
+        } else {
+           
+        }
+        
         if (isset($cart['extra_discount']) && $cart['extra_discount_type'] == 'amount') {
             if ($cart['extra_discount'] > $total_price_for_discount_validation) {
                 Toastr::error(translate('discount_can_not_be_more_total_product_price'));
@@ -678,6 +722,7 @@ class POSController extends Controller
         $total_tax_amount = ($tax > 0) ? (($total_price * $tax) / 100) : $total_tax_amount;
         try {
             $order->extra_discount = $extra_discount ?? 0;
+            $order->packing_fee    = $packing_fee ?? 0;
             $order->total_tax_amount = $total_tax_amount;
             $order->order_amount = $total_price + $total_tax_amount + $total_addon_tax;
             $order->coupon_discount_amount = 0.00;
@@ -889,7 +934,7 @@ class POSController extends Controller
     public function generate_invoice($id): JsonResponse
     {
         $order = $this->order->where('id', $id)->first();
-
+       
         return response()->json([
             'success' => 1,
             'view' => view('admin-views.pos.order.invoice', compact('order'))->render(),
@@ -1003,6 +1048,7 @@ class POSController extends Controller
      */
     public function customer_store(Request $request): RedirectResponse
     {
+       
         $request->validate([
             'f_name' => 'required',
             'l_name' => 'required',
@@ -1028,6 +1074,7 @@ class POSController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt('password'),
+            'gst_number'=>$request->gst_number,
         ]);
 
         Toastr::success(translate('customer added successfully'));

@@ -42,7 +42,6 @@ class BusinessSettingsController extends Controller
     public function restaurant_index(): Renderable
     {
        
-        
         if ($this->business_setting->where(['key' => 'minimum_order_value'])->first() == false) {
             $this->business_setting->updateOrInsert(['key' => 'minimum_order_value'], [
                 'value' => 1,
@@ -144,6 +143,10 @@ class BusinessSettingsController extends Controller
 
         $this->business_setting->updateOrInsert(['key' => 'restaurant_name'], [
             'value' => $request['restaurant_name'],
+        ]);
+
+        $this->business_setting->updateOrInsert(['key'=> 'gst_number'],[
+            'value' => $request['gst_number'],
         ]);
 
         $this->business_setting->updateOrInsert(['key' => 'currency'], [
@@ -1781,10 +1784,17 @@ class BusinessSettingsController extends Controller
         return view('admin-views.business-settings.restaurant.delivery-fee');
     }
 
+    public function packing_fee_setup(): Renderable
+    {
+        return view('admin-views.business-settings.restaurant.packing-fee');
+    }
+
+   
     /**
      * @param Request $request
      * @return RedirectResponse
      */
+    
     public function update_delivery_fee(Request $request): RedirectResponse
     {
         if ($request->delivery_charge == null) {
@@ -1954,6 +1964,18 @@ class BusinessSettingsController extends Controller
         return back();
     }
 
+    public function update_packing_fee(Request $request): RedirectResponse
+    {
+        $this->business_setting->updateOrInsert(['key' => 'packing_fee'], [
+            'value' => [
+                'packing_fee' => $request->packing_fee,
+               
+            ]
+        ]);
+
+        Toastr::success(translate('Packing Fee updated!'));
+        return back();
+    }
     public function otp_setup(): Factory|View|Application
     {
         return view('admin-views.business-settings.otp-setup');

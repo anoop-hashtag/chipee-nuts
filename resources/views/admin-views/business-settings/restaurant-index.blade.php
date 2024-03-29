@@ -81,6 +81,7 @@
                                 <textarea name="address" class="form-control" required placeholder="{{translate('Ex: ABC Company')}}" style="resize: none;">{{$address}}</textarea>
                             </div>
                         </div>
+                        
 
                         <div class="col-md-4 col-sm-6">
                             @php($logo=\App\Model\BusinessSetting::where('key','logo')->first()->value)
@@ -99,7 +100,9 @@
                                          onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
                                          src="{{asset('storage/app/public/restaurant/'.$logo)}}" alt="logo image"/>
                                 </div>
+                                
                             </div>
+                            
                         </div>
                         <div class="col-md-4 col-sm-6">
                             @php($fav_icon=\App\Model\BusinessSetting::where('key','fav_icon')->first()->value)
@@ -118,6 +121,14 @@
                                          onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
                                          src="{{asset('storage/app/public/restaurant/'.$fav_icon)}}" alt="fav"/>
                                 </div>
+                            </div>
+                        </div>
+                        @php($gstin=\App\CentralLogics\Helpers::get_business_settings('gst_number'))
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label class="input-label text-capitalize">{{translate('GSTIN')}}<span class="text-danger"></span></label>
+                                <input type="text" value="{{$gstin}}"
+                                name="gst_number" class="form-control"  placeholder="{{translate('GSTIN')}}">
                             </div>
                         </div>
                     </div>

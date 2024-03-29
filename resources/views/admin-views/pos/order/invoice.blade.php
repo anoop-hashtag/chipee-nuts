@@ -15,6 +15,10 @@
             {{translate('Phone')}}
             : {{\App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value}}
         </h5>
+        <h5 style="font-size: 16px;font-weight: lighter;line-height: 1">
+            {{translate('GSTIN')}}
+            : {{\App\Model\BusinessSetting::where(['key'=>'gst_number'])->first()->value}}
+        </h5>
     </div>
 
     <span>--------------------------------------</span>
@@ -27,6 +31,7 @@
                 {{date('d/M/Y h:i a',strtotime($order['created_at']))}}
             </h5>
         </div>
+
         @if($order->customer)
             <div class="col-12">
                 <h5>{{translate('Customer Name')}} : {{$order->customer['f_name'].' '.$order->customer['l_name']}}</h5>
@@ -38,6 +43,17 @@
                 <h5>{{translate('Phone')}} : (XXX)-XXX-XXX </h5>
             </div>
         @endif
+
+        @if(isset($order->customer['gst_number']) && !empty($order->customer['gst_number']))
+    <div class="col-12">
+        <h5>{{translate('GSTIN')}} : {{$order->customer['gst_number']}}</h5>
+    </div>
+@else
+    <div class="col-12">
+       
+    </div>       
+    @endif
+
     </div>
     <h5 class="text-uppercase"></h5>
     <span>--------------------------------------</span>
@@ -79,7 +95,7 @@
                                     @foreach ($variation['values'] as $value)
                                         <span class="d-block text-capitalize">
                                             {{ $value['label']}} :
-                                                    {{-- <strong>{{\App\CentralLogics\Helpers::set_symbol( $value['optionPrice'])}}</strong> --}}
+                                                    <strong>{{\App\CentralLogics\Helpers::set_symbol( $value['optionPrice'])}}</strong>
                                                     </span>
                                     @endforeach
                                 @else
@@ -130,54 +146,6 @@
                     <td style="padding-right:4px; text-align:right">
                         @php($amount=($detail['price']-$detail['discount_on_product'])*$detail['quantity'])
                         {{ \App\CentralLogics\Helpers::set_symbol($amount) }}
-                        
-                        {{-- @foreach ($variation['values'] as $value)
-                        
-                        <span class="d-block text-capitalize">
-                            <br>
-                            <br>
-                           
-                            <strong>{{ \App\CentralLogics\Helpers::set_symbol($value['optionPrice']) }}</strong>
-                        @endif
-                    @endforeach --}}
-                    @if (count(json_decode($detail['variation'], true)) > 0)
-                    {{-- <strong>{{ translate('variation') }} : </strong> --}}
-                    @foreach(json_decode($detail['variation'],true) as  $variation)
-                        @if ( isset($variation['name'])  && isset($variation['values']))
-                            <span class="d-block text-capitalize">
-                                                {{-- <strong>{{  $variation['name']}} - </strong> --}}
-                                        </span>
-                            @foreach ($variation['values'] as $value)
-                            <br>
-                            <br>
-                                <span class="d-block text-capitalize">
-                                    
-                                    {{-- {{ $value['label']}} : --}}
-                                            <strong>{{\App\CentralLogics\Helpers::set_symbol( $value['optionPrice'])}}</strong>
-                                           
-                                    
-                                  
-                                    
-                                            </span>
-                            @endforeach
-                        @else
-                            @if (isset(json_decode($detail['variation'],true)[0]))
-                                @foreach(json_decode($detail['variation'],true)[0] as $key1 =>$variation)
-                                    <div class="font-size-sm text-body">
-                                        {{-- <span>{{$key1}} :  </span> --}}
-                                        <span class="font-weight-bold">{{$variation}}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-                            @break
-                        @endif
-                    @endforeach
-                @else
-                    <div class="font-size-sm text-body">
-                        {{-- <span>{{ translate('Price') }} : </span> --}}
-                        <span class="font-weight-bold">{{ \App\CentralLogics\Helpers::set_symbol($detail->price) }}</span>
-                    </div>
-                @endif
                     </td>
                 </tr>
                 @php($item_price+=$amount)
@@ -205,11 +173,13 @@
                 <dd class="col-4">
                     -{{ \App\CentralLogics\Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
                 <dt class="col-8">{{translate('Extra Discount')}}:</dt>
-                <dd class="col-4">
-                    -{{ \App\CentralLogics\Helpers::set_symbol($order['extra_discount']) }}</dd>
+                <dd class="col-4">-{{ \App\CentralLogics\Helpers::set_symbol($order['extra_discount']) }}</dd>
                     <dt class="col-8">{{translate('Tax')}} / {{translate('GST')}}:</dt>
                     <dd class="col-4">{{\App\CentralLogics\Helpers::set_symbol($total_tax + $add_ons_tax_cost)}}</dd>
-                <dt class="col-8">{{translate('Delivery Fee:')}}</dt>
+                    <dt class="col-8">{{translate('Packing Fee')}}:</dt>
+                <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee'])}}</dd>
+                    @if($order['order_type']=='delivery')
+                    <dt class="col-8">{{translate('Delivery Fee:')}}</dt>
                 
                 <dd class="col-4">
                     @if($order['order_type']=='take_away')
@@ -220,9 +190,21 @@
                     {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
                     <hr>
                 </dd>
+                    @endif
+                <dt class="col-8" style="display: none;">{{translate('Delivery Fee:')}}</dt>
+                
+                <dd class="col-4" style="display: none;">
+                    @if($order['order_type']=='take_away')
+                        @php($del_c=0)
+                    @else
+                        @php($del_c=$order['delivery_charge'])
+                    @endif
+                    {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
+                    <hr>
+                </dd>
 
                 <dt class="col-6" style="font-size: 20px">{{translate('Total')}}:</dt>
-                <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($subtotal-$order['coupon_discount_amount']-$order['extra_discount']+$del_c) }}</dd>
+                <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($subtotal-$order['coupon_discount_amount']-$order['extra_discount']+$del_c+$order['packing_fee']) }}</dd>
             </dl>
         </div>
     </div>

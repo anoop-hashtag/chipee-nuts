@@ -65,6 +65,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::post('empty-cart', 'POSController@emptyCart')->name('emptyCart');
             Route::post('tax', 'POSController@update_tax')->name('tax');
             Route::post('discount', 'POSController@update_discount')->name('discount');
+            Route::post('packing_fee', 'POSController@update_packing')->name('packing_fee');
             Route::get('customers', 'POSController@get_customers')->name('customers');
             Route::post('order', 'POSController@place_order')->name('order');
             Route::get('orders', 'POSController@order_list')->name('orders');
@@ -253,7 +254,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('restaurant-setup', 'BusinessSettingsController@restaurant_index')->name('restaurant-setup')->middleware('actch');
                 Route::post('update-setup', 'BusinessSettingsController@restaurant_setup')->name('update-setup')->middleware('actch');
                 Route::get('delivery-fee-setup', 'BusinessSettingsController@delivery_fee_setup')->name('delivery-fee-setup')->middleware('actch');
+                // Route::get('packing-fee-setup', 'BusinessSettingsController@packing_fee_setup')->name('packing-fee-setup')->middleware('actch');
                 Route::post('delivery-fee-setup', 'BusinessSettingsController@update_delivery_fee')->name('update-delivery-fee')->middleware('actch');
+                // Route::post('update_packing_fee', 'BusinessSettingsController@update_packing_fee')->name('update_packing_fee')->middleware('actch');
                 Route::get('main-branch-setup', 'BusinessSettingsController@main_branch_setup')->name('main-branch-setup')->middleware('actch');
                 Route::post('delivery-fee-setup', 'BusinessSettingsController@update_delivery_fee')->name('update-delivery-fee')->middleware('actch');
                 Route::get('main-branch-setup', 'BusinessSettingsController@main_branch_setup')->name('main-branch-setup')->middleware('actch');

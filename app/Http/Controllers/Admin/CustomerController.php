@@ -138,6 +138,7 @@ class CustomerController extends Controller
      */
     public function view($id, Request $request): RedirectResponse|Renderable
     {
+        // dd('sonu');
         $search = $request->search;
         $customer = $this->customer->find($id);
 
