@@ -249,8 +249,8 @@
                                
                             @else
                           
-                            <dt class="col-8">{{ translate('Packing Fee') }}:</dt>
-                            <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                            <dt class="col-6">{{ translate('Packing Fee') }}:</dt>
+                            <dd class="col-6">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
                             @endif
                                 <hr>
                             </dd>
