@@ -63,6 +63,10 @@
                     <h5 style="font-size: 16px;font-weight: lighter;line-height: 1">
                         Phone : {{\App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value}}
                     </h5>
+                    <h5 style="font-size: 16px;font-weight: lighter;line-height: 1">
+                        GSTIN : {{\App\Model\BusinessSetting::where(['key'=>'gst_number'])->first()->value}}
+                    </h5>
+                   
                 </div>
                 <hr class="text-dark hr-style-1">
 
@@ -239,11 +243,20 @@
                                     @php($del_c=$order['delivery_charge'])
                                 @endif
                                 {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
+                                @if($order['packing_fee']==0.00)
+                                <dt class="col-8">{{ translate('') }}</dt>
+                                <dd class="col-4"></dd>
+                               
+                            @else
+                          
+                            <dt class="col-8">{{ translate('Packing Fee') }}:</dt>
+                            <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                            @endif
                                 <hr>
                             </dd>
                       
                             <dt class="col-6" style="font-size: 20px">{{translate('Total:')}}</dt>
-                            <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']+$add_ons_tax_cost) }}</dd>
+                            <dd class="col-6" style="font-size: 20px">{{ \App\CentralLogics\Helpers::set_symbol($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']+$add_ons_tax_cost+$order['packing_fee']) }}</dd>
 
                             <!-- partial payment-->
                             @if ($order->order_partial_payments->isNotEmpty())

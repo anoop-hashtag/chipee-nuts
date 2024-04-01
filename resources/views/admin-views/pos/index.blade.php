@@ -202,7 +202,7 @@
                                     <select onchange="store_key('customer_id',this.value)" id='customer' name="customer_id" data-placeholder="{{translate('Walk_In_Customer')}}" class="js-select2-custom-x form-ellipsis form-control">
                                     <option  disabled selected>{{translate('select Customer')}}</option>
                                     @foreach(\App\User::select('id', 'f_name', 'l_name')->get() as $customer)
-                                            <option value="{{$customer['id']}}" {{ session()->get('customer_id') == $customer['id'] ? 'selected' : '' }}>{{$customer['f_name']. ' '. $customer['l_name'] }}</option>
+                                            <option value="{{$customer['id']}}" {{ session()->get('customer_id') == $customer['id'] ? 'selected' : '' }}>{{$customer['f_name']. ' '. $customer['l_name']; }}</option>
                                         @endforeach
                                     </select>
                                     <button class="btn btn-success rounded text-nowrap" id="add_new_customer" type="button" data-toggle="modal" data-target="#add-customer" title="Add Customer">

@@ -383,14 +383,26 @@
                                         @endif
                                         {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
                                     </dd>
-
+                                    
+                                    @if($order['packing_fee']==0.00)
+                                   
+                                   
+                                @else
+                              
+                                <div class="col-6">
+                                    <span>
+                                        {{translate('Packing')}} {{translate('fee')}}</span>
+                                    <span>:</span>
+                                </div>
+                                <dd class="col-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                                @endif
                                     <dt class="col-6 border-top pt-2 fz-16 font-weight-bold">
                                         <div class="d-flex max-w220 ml-auto">
                                             <span>{{translate('total')}}</span>
                                         <span>:</span>
                                         </div>
                                     </dt>
-                                    <dd class="col-6 border-top pt-2 fz-16 font-weight-bold text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($sub_total - $order['coupon_discount_amount'] - $order['extra_discount'] + $del_c) }}</dd>
+                                    <dd class="col-6 border-top pt-2 fz-16 font-weight-bold text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($sub_total - $order['coupon_discount_amount'] - $order['extra_discount'] + $del_c+$order['packing_fee']) }}</dd>
 
                                     <!-- partial payment-->
                                     @if ($order->order_partial_payments->isNotEmpty())
@@ -737,6 +749,10 @@
                                             <i class="tio-email mr-2"></i>
                                             <a class="text-dark break-all" href="mailto:{{$order->customer['email']}}">{{$order->customer['email']}}</a>
                                         </span>
+                                        <span class="text-dark">
+                                            <i class="tio-gst mr-2"></i>
+                                            <a class="text-dark break-all" href="">GSTIN: {{$order->customer['gst_number']}}</a>
+                                        </span>
                                         </div>
                                     </div>
                                 @endif
@@ -788,6 +804,9 @@
                                         <i class="tio-email mr-2"></i>
                                         <a class="text-dark" href="mailto:{{$order->branch['email']}}">{{$order->branch['email']}}</a>
                                     </span>
+                                    <h5 style="text-dark break-all">
+                                        GSTIN : {{\App\Model\BusinessSetting::where(['key'=>'gst_number'])->first()->value}}
+                                    </h5>
                                 </div>
                             </div>
 
