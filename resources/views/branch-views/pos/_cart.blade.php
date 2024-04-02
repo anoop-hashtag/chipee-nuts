@@ -38,7 +38,9 @@
 
                         //tax calculation
                         $product = \App\Model\Product::find($cartItem['id']);
-                        $total_tax += \App\CentralLogics\Helpers::tax_calculate($product, $cartItem['price'])*$cartItem['quantity'];
+                        $total_tax += \App\CentralLogics\Helpers::tax_calculate($product, ($cartItem['price']-$cartItem['discount']))*$cartItem['quantity'];
+
+                        
 
                         ?>
                     <tr>
