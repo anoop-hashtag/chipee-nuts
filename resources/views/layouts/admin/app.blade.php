@@ -600,6 +600,7 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
+        
       var countryDropdown = $("#country-dropdown");
       var selectedCountryData = $("#selected-country-data");
       var hiddenInput = $("#hidden-country-code"); // Add this line to select the hidden input
@@ -645,6 +646,13 @@
         selectedCountryData.text("Selected Country Data: " + JSON.stringify(countryData));
       });
       
+
+      $(".Paid_By").on("click", function(){
+        $(".Paid_By").removeClass('active');
+        $(this).addClass('active');
+      })
+
+
     });
     
 </script>

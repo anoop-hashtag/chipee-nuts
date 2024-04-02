@@ -1183,6 +1183,13 @@ input.qty {
   filter: brightness(0.9);
 }
 
+label.btn.btn-block.btn-bordered.px-4.m-1.active {
+  background-color: #334257;
+  border-color: #334257;
+  color: #fff;
+  filter: brightness(0.9);
+}
+
 .break-all {
   word-break: break-all !important;
 }

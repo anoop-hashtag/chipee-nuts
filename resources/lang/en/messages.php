@@ -2174,4 +2174,12 @@
   'Add New' => 'Add New',
   'Reviews' => 'Reviews',
   'sales' => 'Sales',
+  'GSTIN' => 'GSTIN',
+  'Discount: ' => 'Discount: ',
+  'Packing_fee' => 'Packing fee',
+  'update_packing_fee' => 'Update packing fee',
+  'Packing' => 'Packing',
+  'Upi' => 'Upi',
+  'UPI' => 'UPI',
+  'upi' => 'Upi',
 );
