@@ -66,12 +66,14 @@
         </thead>
 
         <tbody>
+            
         @php($sub_total=0)
         @php($total_tax=0)
         @php($total_dis_on_pro=0)
         @php($add_ons_cost=0)
         @php($add_on_tax=0)
         @php($add_ons_tax_cost=0)
+
         @foreach($order->details as $detail)
             @if($detail->product)
                 @php($add_on_qtys=json_decode($detail['add_on_qtys'],true))

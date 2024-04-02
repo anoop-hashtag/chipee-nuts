@@ -555,7 +555,7 @@ class POSController extends Controller
                         'product_details' => $product,
                         'quantity' => $c['quantity'],
                         'price' => $price,
-                        'tax_amount' => Helpers::tax_calculate($product, $price),
+                        'tax_amount' => Helpers::tax_calculate($product, ($price-$discount)),
                         'discount_on_product' => $discount,
                         'discount_type' => 'discount_on_product',
                         //'variant' => json_encode($c['variant']),
