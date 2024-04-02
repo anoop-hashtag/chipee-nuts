@@ -2182,4 +2182,5 @@
   'Upi' => 'Upi',
   'UPI' => 'UPI',
   'upi' => 'Upi',
+  ' With_country_code' => ' With country code',
 );

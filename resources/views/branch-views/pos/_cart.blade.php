@@ -169,14 +169,18 @@ if (session()->get('order_type') == 'home_delivery'){
         <div class="pt-4 mb-4">
             <div class="text-dark d-flex mb-2">{{translate('Paid_By')}} :</div>
             <div class="row options-button">
-                <div class="col-md-6 col-6 pr-1">
-                    <input type="radio" id="cash" value="cash" name="type" hidden="" checked="">
-                    <label for="cash" class="btn btn-bordered btn-block px-4 m-1">{{translate('Cash')}}</label>
-                </div>
-                <div class="col-md-6 col-6 pl-1" id="card_payment_li" style="display: {{ session('order_type') == 'home_delivery' ?  'none' : '' }}">
-                    <input type="radio" value="card" id="card" name="type" hidden="">
-                    <label for="card" class="btn btn-bordered btn-block px-4 m-1">{{translate('Card')}}</label>
-                </div>
+                <div class="col-md-4 col-4 pr-1">
+                        <input type="radio" id="cash" value="cash" name="type" hidden="" checked="">
+                        <label for="cash" class="btn btn-block btn-bordered px-4 m-1 Paid_By">{{translate('Cash')}}</label>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <input type="radio" id="upi" value="UPI" name="type" hidden="" checked="">
+                        <label for="upi" class="btn btn-block btn-bordered px-4 m-1 Paid_By">{{translate('UPI')}}</label>
+                    </div>
+                    <div class="col-md-4 col-4 pl-1" id="card_payment_li" style="display: {{ session('order_type') == 'home_delivery' ?  'none' : '' }}">
+                        <input type="radio" value="card" id="card" name="type" hidden="">
+                        <label for="card" class="btn btn-block btn-bordered px-4 m-1 Paid_By">{{translate('Card')}}</label>
+                    </div>
                 <div class="col-md-12 col-12"  id="pay_after_eating_li" style="display: {{ session('order_type') == 'dine_in' ?  'block' : 'none' }}">
                     <input type="radio" value="pay_after_eating" id="pay_after_eating" name="type" hidden="">
                     <label for="pay_after_eating" class="btn btn-bordered btn-block px-4 m-1">{{translate('pay_after_eating')}}</label>

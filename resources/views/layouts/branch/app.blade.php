@@ -174,7 +174,11 @@
             $("html").attr('dir', "ltr");
             $(".direction-toggle").find('span').text('Toggle RTL')
         }
-
+        
+        $(".Paid_By").on("click", function(){
+            $(".Paid_By").removeClass('active');
+            $(this).addClass('active');
+        })
     })
 </script>
 
