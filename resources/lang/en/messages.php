@@ -2184,4 +2184,7 @@
   'upi' => 'Upi',
   ' With_country_code' => ' With country code',
   'Deliveryman Partner can not assign/change in that status' => 'Deliveryman Partner can not assign/change in that status',
+  'Assign_Delivery_Partner' => 'Assign Delivery Partner',
+  'TAX' => 'TAX',
+  'charge' => 'Charge',
 );

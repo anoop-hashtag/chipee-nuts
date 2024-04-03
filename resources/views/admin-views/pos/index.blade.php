@@ -1074,6 +1074,7 @@
                 var marker = new google.maps.Marker({
                     position: myLatLng,
                     map: map,
+                    draggable: true
                 });
 
                 marker.setMap(map);
@@ -1081,6 +1082,7 @@
                 google.maps.event.addListener(map, 'click', function(mapsMouseEvent) {
                     var coordinates = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
                     var coordinates = JSON.parse(coordinates);
+                    console.log(coordinates);
                     var latlng = new google.maps.LatLng(coordinates['lat'], coordinates['lng']);
                     marker.setPosition(latlng);
                     map.panTo(latlng);
@@ -1122,17 +1124,21 @@
                     markers = [];
                     // For each place, get the icon, name and location.
                     const bounds = new google.maps.LatLngBounds();
+
                     places.forEach((place) => {
                         if (!place.geometry || !place.geometry.location) {
                             console.log("Returned place contains no geometry");
                             return;
                         }
+                        document.getElementById('latitude').value = place.geometry.location.lat();
+                        document.getElementById('longitude').value = place.geometry.location.lng();
                         var mrkr = new google.maps.Marker({
                             map,
                             title: place.name,
                             position: place.geometry.location,
+                            draggable: true
                         });
-                        google.maps.event.addListener(mrkr, "click", function(event) {
+                        google.maps.event.addListener(mrkr, "dragend", function(event) {
                             document.getElementById('latitude').value = this.position.lat();
                             document.getElementById('longitude').value = this.position.lng();
 

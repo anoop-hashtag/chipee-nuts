@@ -307,71 +307,60 @@
                             <div class="col-md-9 col-lg-8">
                                 <dl class="row">
                                     <dt class="col-6">
-                                        <div class="d-flex max-w220 ml-auto">
-                                            {{translate('items')}} {{translate('price')}} <span>:</span>
-                                        </div>
-                                    </dt>
-                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($sub_total) }}</dd>
-
-                                    <dt class="col-6">
-                                        <div class="d-flex max-w220 ml-auto">
-                                            <span>{{translate('tax')}} / {{translate('GST')}}</span>
-                                            <span>:</span>
-                                        </div>
-                                    </dt>
-                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($total_tax + $add_ons_tax_cost) }}</dd>
-
-                                    <dt class="col-6">
 
                                         <div class="d-flex max-w220 ml-auto">
-                                            <span>{{translate('addon')}} {{translate('cost')}}</span>
-                                            <span>:</span>
+                                            <span>{{translate('addon')}} </span>
+                                            <span> :</span>
                                         </div>
                                     </dt>
                                     <dd class="col-6 text-dark text-right">
                                         {{ \App\CentralLogics\Helpers::set_symbol($add_ons_cost) }}
                                     </dd>
-
-                                    <dt class="col-6">
-                                        <div class="d-flex max-w220 ml-auto">
-                                            <span>{{translate('item')}} {{translate('discount')}}</span>
-                                            <span>:</span>
-                                        </div>
-                                    </dt>
-                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($total_dis_on_pro) }}</dd>
-
                                     <dt class="col-6">
                                         <div class="d-flex max-w220 ml-auto">
                                             <span>
-                                        {{translate('subtotal')}}</span>
-                                            <span>:</span>
+                                        {{translate('subtotal')}} </span>
+                                            <span> :</span>
                                         </div>
                                     </dt>
                                     <dd class="col-6 text-dark text-right">
                                         {{ \App\CentralLogics\Helpers::set_symbol($sub_total =$sub_total+$total_tax+$add_ons_cost-$total_dis_on_pro + $add_ons_tax_cost) }}</dd>
 
                                     <dt class="col-6">
-
                                         <div class="d-flex max-w220 ml-auto">
-                                            <span>{{translate('coupon')}} {{translate('discount')}}</span>
-                                            <span>:</span>
+                                            <span>{{translate('product')}} {{translate('discount')}}</span>
+                                            <span> :</span>
                                         </div>
                                     </dt>
-                                    <dd class="col-6 text-dark text-right">
-                                        - {{ \App\CentralLogics\Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
+                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($total_dis_on_pro) }}</dd>
 
                                     <dt class="col-6">
                                         <div class="d-flex max-w220 ml-auto">
                                             <span>{{translate('extra discount')}} </span>
-                                        <span>:</span>
+                                        <span> :</span>
                                         </div>
                                     </dt>
                                     <dd class="col-6 text-dark text-right">
                                         - {{ \App\CentralLogics\Helpers::set_symbol($order['extra_discount']) }}</dd>
+
+                                    <dt class="col-6">
+                                        <div class="d-flex max-w220 ml-auto">
+                                            <span>{{translate('GST')}}/{{translate('TAX')}}</span>
+                                            <span>:</span>
+                                        </div>
+                                    </dt>
+                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($total_tax + $add_ons_tax_cost) }}</dd>
+
+                                    {{--<dt class="col-6">
+                                        <div class="d-flex max-w220 ml-auto">
+                                            {{translate('items')}} {{translate('price')}} <span>:</span>
+                                        </div>
+                                    </dt>
+                                    <dd class="col-6 text-dark text-right">{{ \App\CentralLogics\Helpers::set_symbol($sub_total) }}</dd> --}}
                                     <dt class="col-6">
                                         <div class="d-flex max-w220 ml-auto">
                                             <span>
-                                                {{translate('delivery')}} {{translate('fee')}}</span>
+                                                {{translate('delivery')}} {{translate('charge')}}</span>
                                             <span>:</span>
                                         </div>
                                     </dt>
@@ -383,6 +372,27 @@
                                         @endif
                                         {{ \App\CentralLogics\Helpers::set_symbol($del_c) }}
                                     </dd>
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    <dt class="col-6">
+
+                                        <div class="d-flex max-w220 ml-auto">
+                                            <span>{{translate('coupon')}} {{translate('discount')}}</span>
+                                            <span>:</span>
+                                        </div>
+                                    </dt>
+                                    <dd class="col-6 text-dark text-right">
+                                        - {{ \App\CentralLogics\Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
+
+                                    
+                                    
                                     
                                     @if($order['packing_fee']==0.00)
                                    
@@ -394,7 +404,7 @@
                                         {{translate('Packing')}} {{translate('fee')}}</span>
                                     <span>:</span>
                                 </div>
-                                <dd class="col-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
+                                <dd class="col-4">{{ \App\CentralLogics\Helpers::set_symbol($order['packing_fee']) }}</dd>
                                 @endif
                                     <dt class="col-6 border-top pt-2 fz-16 font-weight-bold">
                                         <div class="d-flex max-w220 ml-auto">
