@@ -1149,7 +1149,6 @@
                     $('#loading').show();
                 },
                 success: function(data) {
-                    console.log(data.errors);
                     if (data.errors) {
                         for (var i = 0; i < data.errors.length; i++) {
                             toastr.error(data.errors[i].message, {
