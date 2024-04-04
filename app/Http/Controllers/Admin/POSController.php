@@ -1119,8 +1119,9 @@ class POSController extends Controller
         $destination_lng = $request['longitude'];
 
         $api_key = Helpers::get_business_settings('map_api_server_key');
+        /*echo 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $origin_lat . ',' . $origin_lng . '&destinations=' . $destination_lat . ',' . $destination_lng . '&key=' . $api_key;die;*/
         $response = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $origin_lat . ',' . $origin_lng . '&destinations=' . $destination_lat . ',' . $destination_lng . '&key=' . $api_key);
-
+        /*print_r($response);die;*/
         //return $response->json();
         $data = json_decode($response, true);
         $distance_value = $data['rows'][0]['elements'][0]['distance']['value'];
