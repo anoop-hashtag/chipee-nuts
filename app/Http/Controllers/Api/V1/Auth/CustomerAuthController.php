@@ -243,14 +243,7 @@ class CustomerAuthController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-                $lang_code = $request->header('X-localization') ?? 'en';
-                $emailServices = Helpers::get_business_settings('mail_config');
-                $mail_status = Helpers::get_business_settings('registration_otp_mail_status_user');
-
-                if(isset($emailServices['status']) && $emailServices['status'] == 1 && $mail_status == 1){
-                    Mail::to($request['email'])->send(new EmailVerification($token, $lang_code ));
-                }
-            /*try {
+            try {
                 $lang_code = $request->header('X-localization') ?? 'en';
                 $emailServices = Helpers::get_business_settings('mail_config');
                 $mail_status = Helpers::get_business_settings('registration_otp_mail_status_user');
@@ -263,11 +256,11 @@ class CustomerAuthController extends Controller
 
                 return response()->json([
                     'errors' => [
-                        ['code' => 'otp', 'message' => translate('Token sent failed!'), "catch" => $exception]
+                        ['code' => 'otp', 'message' => translate('Token sent failed!'), 'catch_exception'=>$exception->getMessage()]
                     ]
                 ], 404);
 
-            }*/
+            }
 
             return response()->json([
                 'message' => translate('Email is ready to register'),
