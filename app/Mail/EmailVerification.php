@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\CentralLogics\Helpers;
 use App\Model\BusinessSetting;
+use App\Model\SocialMedia;
 use App\Models\EmailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,11 +61,12 @@ class EmailVerification extends Mailable
         $template=$data?$data->email_template:4;
         $url = '';
         $company_name = BusinessSetting::where('key', 'restaurant_name')->first()->value;
+        $socialMediaData = SocialMedia::orderBy('name')->get();
         $title = Helpers::text_variable_data_format( value:$content['title']??'');
         $body = Helpers::text_variable_data_format( value:$content['body']??'');
         $footer_text = Helpers::text_variable_data_format( value:$content['footer_text']??'');
         $copyright_text = Helpers::text_variable_data_format( value:$content['copyright_text']??'');
-        return $this->subject(translate('Customer_Password_Reset_mail'))->view('email-templates.new-email-format-'.$template, ['company_name'=>$company_name,'data'=>$data,'title'=>$title,'body'=>$body,'footer_text'=>$footer_text,'copyright_text'=>$copyright_text,'url'=>$url, 'code'=>$code]);
+        return $this->subject(translate('Customer_Password_Reset_mail'))->view('email-templates.new-email-format-'.$template, ['company_name'=>$company_name,'data'=>$data,'title'=>$title,'body'=>$body,'footer_text'=>$footer_text,'copyright_text'=>$copyright_text,'url'=>$url, 'code'=>$code, 'socialMediaData' => $socialMediaData]);
 
     }
 }
