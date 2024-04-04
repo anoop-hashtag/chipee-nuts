@@ -647,10 +647,10 @@
       });
       
 
-      $(".Paid_By").on("click", function(){
+      $(document).on("click", ".Paid_By", function(){
         $(".Paid_By").removeClass('active');
-        $(this).addClass('active');
-      })
+        $(this).addClass('active');            
+    })
 
 
     });
