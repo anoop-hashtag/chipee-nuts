@@ -57,23 +57,34 @@
                                                    id="shipping_per_km" {{ $config['status']==0?'disabled':'' }}>
                                         </div>
                                     </div>
+
+                                    
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="form-group d-flex align-items-center gap-2">
-                                            <input type="radio" name="shipping_status" value="0"
-                                                   {{$config['status']==0?'checked':''}} id="default_delivery_status">
-                                            <label for="default_delivery_status" class="text-dark font-weight-bold mb-0">{{translate('default_delivery_charge')}}</label>
+                                <div class="col-md-1">
+                                        <div style="border-left: 1px solid #000;height: 100%;">
                                         </div>
-                                        <div class="form-group">
-                                            @php($delivery=\App\Model\BusinessSetting::where('key','delivery_charge')->first()->value)
-                                            <label class="">{{translate('delivery_Charge')}} </label>
-                                            <input type="number" min="0" step=".01" name="delivery_charge" value="{{$delivery}}"
-                                                   class="form-control" placeholder="{{translate('EX: 100')}}" required
-                                                   {{ $config['status']==1?'disabled':'' }} id="delivery_charge">
+                                    </div>
+                              
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-11">
+                                           
+                                            <div class="form-group">
+                                                <div class="form-group d-flex align-items-center gap-2">
+                                                    <input type="radio" name="shipping_status" value="0" {{$config['status']==0 ? 'checked' : ''}} id="default_delivery_status">
+                                                    <label for="default_delivery_status" class="text-dark font-weight-bold mb-0">{{translate('default_delivery_charge')}}</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    @php($delivery=\App\Model\BusinessSetting::where('key','delivery_charge')->first()->value)
+                                                    <label>{{translate('delivery_Charge')}}</label>
+                                                    <input type="number" min="0" step=".01" name="delivery_charge" value="{{$delivery}}" class="form-control" placeholder="{{translate('EX: 100')}}" required {{$config['status']==1 ? 'disabled' : ''}} id="delivery_charge">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
 
                             <div class="d-flex justify-content-end gap-3">

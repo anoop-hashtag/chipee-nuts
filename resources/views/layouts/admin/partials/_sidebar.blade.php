@@ -936,7 +936,7 @@
                             </a>
                         </li>
 
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <small class="nav-subtitle">{{translate('system')}} {{translate('addon')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -949,7 +949,7 @@
                                         {{translate('System Addons')}}
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             @if(count(config('addon_admin_routes'))>0)
                                 <li class="navbar-vertical-aside-has-menu {{Request::is('admin/payment/configuration/*') || Request::is('admin/sms/configuration/*')?'active':''}} mb-5">

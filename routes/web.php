@@ -12,7 +12,9 @@ use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\FlutterwaveController;
 use App\Http\Controllers\BkashPaymentController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\Admin\CityController;
 
+Route::get('admin/business-settings/restaurant/getCities/{stateId}', [CityController::class, 'getCities'])->name('admin.business-settings.restaurant.getCities');
 
 /**
  * Admin login

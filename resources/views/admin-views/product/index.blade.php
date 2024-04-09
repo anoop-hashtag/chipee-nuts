@@ -150,7 +150,7 @@
                                                         </label>
                                                         <select name="product_type" class="form-control js-select2-custom">
                                                             <option selected disabled>---{{translate('select')}}---</option>
-                                                            <option value="veg">{{translate('veg')}}</option>
+                                                            <option value="veg">{{translate('pure_Veg')}}</option>
                                                             <option value="non_veg">{{translate('nonveg')}}</option>
                                                             <option value="egg">{{translate('egg')}}</option>
                                                         </select>

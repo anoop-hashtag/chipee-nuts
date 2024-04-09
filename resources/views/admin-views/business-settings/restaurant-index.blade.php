@@ -399,10 +399,39 @@
                                 </select>
                             </div>
                         </div>
+                       <!-- Your Blade Template -->
+<div class="col-lg-4 col-sm-6">
+    <div class="form-group">
+        @php($selectedStateId=\App\Model\BusinessSetting::where('key','states')->first()->value)
+        <label class="input-label" for="state">{{ translate('state') }}</label>
+        <select id="states" name="states" class="form-control js-select2-custom">
+            @foreach($states as $state)
+            <option value="{{ $state->id }}" {{ $state->id == $selectedStateId ? 'selected' : '' }}>
+                {{ $state->name }}
+            </option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="col-lg-4 col-sm-6">
+    <div class="form-group">
+       @php($citydata=\App\Model\BusinessSetting::where('key','cities')->first()->value)
+<label class="input-label" for="cities">{{ translate('city') }}</label>
+<select id="cities" name="cities" class="form-control js-select2-custom">
+    @foreach(json_decode($cities) as $city)
+        <option value="{{ $city->id }}" {{ $city->id == $citydata ? 'selected' : '' }}>
+            {{ $city->city }}
+        </option>
+    @endforeach
+</select>
+    </div>
+</div>
+
                         <div class="col-lg-4 col-sm-6">
                             <div class="form-group">
                                 <label class="input-label">{{translate('time_zone')}}</label>
                                 <select name="time_zone" id="time_zone" data-maximum-selection-length="3" class="form-control js-select2-custom">
+                                    
                                     <option value='Pacific/Midway'>(UTC-11:00) Midway Island</option>
                                     <option value='Pacific/Samoa'>(UTC-11:00) Samoa</option>
                                     <option value='Pacific/Honolulu'>(UTC-10:00) Hawaii</option>
@@ -547,7 +576,55 @@
                                     <option value='Pacific/Tongatapu'>(UTC+13:00) Nuku'alofa</option>
                                 </select>
                             </div>
+                            
                         </div>
+                                                    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to update timezone options based on the selected country
+        function updateTimeZoneOptions(countryCode) {
+            // Clear existing options
+            $('#time_zone').empty();
+            console.log(countryCode);
+
+            // Add options based on the selected country
+            switch (countryCode) {
+                case 'AF': // Afghanistan
+                    $('#time_zone').append('<option value="Asia/Kabul">(UTC+04:30) Kabul</option>');
+                    // Add more timezone options for Afghanistan
+                    break;
+                case 'AX': // Åland Islands
+                    $('#time_zone').append('<option value="Europe/Mariehamn">(UTC+02:00) Mariehamn</option>');
+                    // Add more timezone options for Åland Islands
+                    break;
+                case 'IN': // Åland Islands
+                    $('#time_zone').append(' <option value="Asia/Kolkata">(UTC+05:30) Kolkata</option>');
+                    // Add more timezone options for Åland Islands
+                    break;
+                case 'US': // United States
+                $('#time_zone').append('<option value="America/New_York">(UTC-05:00) Eastern Time</option>');
+                // Add more timezone options for United States
+                   break;
+                // Add cases for other countries
+                // Ensure to include timezone options for all countries
+                default:
+                    // Default options when no country is selected
+                    $('#time_zone').append('<option value="">Select a country first</option>');
+            }
+        }
+
+        // Event listener for country select change event
+        $('#country').change(function() {
+            var selectedCountry = $(this).val();
+            updateTimeZoneOptions(selectedCountry);
+        });
+
+        // Initialize timezone options based on the initially selected country (if any)
+        updateTimeZoneOptions($('#country').val());
+    });
+
+                            </script>
                         @php($time_format=\App\CentralLogics\Helpers::get_business_settings('time_format') ?? '24')
                         <div class="col-lg-4 col-sm-6">
                             <div class="form-group">
@@ -692,7 +769,7 @@
                             @php($vnv_status=\App\CentralLogics\Helpers::get_business_settings('toggle_veg_non_veg'))
                             <div class="form-control d-flex justify-content-between align-items-center gap-3">
                                 <div>
-                                    <label class="text-dark mb-0">{{translate('Veg / Non Veg / Egg Option')}}
+                                    <label class="text-dark mb-0">{{translate('Pure_Veg / Non Veg / Egg Option')}}
                                         <i class="tio-info-outined"
                                            data-toggle="tooltip"
                                            data-placement="top"
@@ -898,6 +975,35 @@
             });
         });
     </script>
+<!-- Your Blade Template -->
+
+
+<script>
+    $(document).ready(function() {
+        $('#states').change(function() {
+            var stateId = $(this).val();
+            if (stateId) {
+                $.ajax({
+                    url: '{{ route("admin.business-settings.restaurant.getCities", ["stateId" => ":stateId"]) }}'.replace(':stateId', stateId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#cities').empty();
+                        $.each(data, function(key, value) {
+                            $('#cities').append('<option value="' + value.id + '">' + value.city + '</option>');
+                        });
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#cities').empty();
+            }
+        });
+    });
+</script>
+
 
     <script>
         @php($time_zone=\App\Model\BusinessSetting::where('key','time_zone')->first())

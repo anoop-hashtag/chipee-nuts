@@ -175,7 +175,7 @@
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <select name="product_type" class="form-control js-select2-custom" required>
-                                                            <option value="veg" {{$product['product_type']=='veg'?'selected':''}}>{{translate('veg')}}</option>
+                                                            <option value="veg" {{$product['product_type']=='veg'?'selected':''}}>{{translate('Pure_Veg')}}</option>
                                                             <option value="non_veg" {{$product['product_type']=='non_veg'?'selected':''}}>{{translate('nonveg')}}</option>
                                                             <option value="egg" {{$product['product_type']=='egg'?'selected':''}}>{{translate('egg')}}</option>
                                                         </select>

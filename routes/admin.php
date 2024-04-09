@@ -253,6 +253,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.'], function () {
                 Route::get('restaurant-setup', 'BusinessSettingsController@restaurant_index')->name('restaurant-setup')->middleware('actch');
                 Route::post('update-setup', 'BusinessSettingsController@restaurant_setup')->name('update-setup')->middleware('actch');
+               
+               
                 Route::get('delivery-fee-setup', 'BusinessSettingsController@delivery_fee_setup')->name('delivery-fee-setup')->middleware('actch');
                 // Route::get('packing-fee-setup', 'BusinessSettingsController@packing_fee_setup')->name('packing-fee-setup')->middleware('actch');
                 Route::post('delivery-fee-setup', 'BusinessSettingsController@update_delivery_fee')->name('update-delivery-fee')->middleware('actch');

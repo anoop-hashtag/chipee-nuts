@@ -48,9 +48,26 @@ class BusinessSettingsController extends Controller
             ]);
         }
         $data['dateFormats'] = DB::table('date_format')->orderBy('date', 'DESC')->get();
+        $data['states'] = DB::table('states')->orderBy('name', 'desc')->get();
+        $data['cities'] = DB::table('cities')->orderBy('city', 'desc')->get();
+
+    //    echo '<pre>'; print_r($data['cities']);  die();
         
         return view('admin-views.business-settings.restaurant-index',$data);
     }
+
+    public function getCities($stateId): JsonResponse
+    {
+        $cities = DB::table('cities')
+        ->where('state_id', $stateId)
+        ->get();
+      
+        return response()->json($cities);
+    }
+ /**
+     * @param $side
+     * @return JsonResponse
+     */
 
     /**
      * @return JsonResponse
@@ -222,6 +239,12 @@ class BusinessSettingsController extends Controller
             'value' => $request['partial_payment_combine_with'],
         ]);
 
+        $this->business_setting->updateOrInsert(['key' => 'states'], [
+            'value' => $request['states'],
+        ]);
+        $this->business_setting->updateOrInsert(['key' => 'cities'], [
+            'value' => $request['cities'],
+        ]);
         Toastr::success(translate('Settings updated!'));
         return back();
     }
