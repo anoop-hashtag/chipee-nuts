@@ -14,4 +14,5 @@ public function getCities($stateId)
     $cities = DB::table('cities')->where('state_id', $stateId)->get();
     return response()->json($cities);
 }
+
 }

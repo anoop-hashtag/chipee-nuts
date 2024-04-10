@@ -47,11 +47,16 @@ class BusinessSettingsController extends Controller
                 'value' => 1,
             ]);
         }
+        $data['countries'] = DB::table('countries')->orderBy('name', 'desc')->get();
         $data['dateFormats'] = DB::table('date_format')->orderBy('date', 'DESC')->get();
-        $data['states'] = DB::table('states')->orderBy('name', 'desc')->get();
+
+        $data['states'] = DB::table('states')
+        ->where('country_id', 101)
+        ->orderBy('name', 'desc')
+        ->get();
         $data['cities'] = DB::table('cities')->orderBy('city', 'desc')->get();
 
-    //    echo '<pre>'; print_r($data['cities']);  die();
+    //    echo '<pre>'; print_r($data['countries']);  die();
         
         return view('admin-views.business-settings.restaurant-index',$data);
     }

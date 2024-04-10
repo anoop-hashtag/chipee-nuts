@@ -13,8 +13,16 @@ use App\Http\Controllers\FlutterwaveController;
 use App\Http\Controllers\BkashPaymentController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\StateController;
+use App\Http\Controllers\Admin\TimezoneController;
+Route::get('/get-time_zone/{country_id}', [TimezoneController::class, 'get_time_zone'])->name('get_time_zone');
+
+Route::get('/get-states/{country_id}', [StateController::class, 'getStates'])->name('get-states');
+
+
 
 Route::get('admin/business-settings/restaurant/getCities/{stateId}', [CityController::class, 'getCities'])->name('admin.business-settings.restaurant.getCities');
+
 
 /**
  * Admin login
