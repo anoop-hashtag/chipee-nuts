@@ -95,7 +95,10 @@ class ConfigController extends Controller
             'status' => (integer)$apple['status'],
             'client_id' => $apple['client_id']
         );
+        $countryID = Helpers::get_business_settings('country') ?? 'BD';
 
+        // Query the database to get the country name using the country ID
+        $countryName = DB::table('countries')->where('id', $countryID)->value('shortname');
         return response()->json([
             'restaurant_name' => $this->business_setting->where(['key' => 'restaurant_name'])->first()->value,
             'restaurant_open_time' => $this->business_setting->where(['key' => 'restaurant_open_time'])->first()->value,
@@ -136,7 +139,7 @@ class ConfigController extends Controller
             'phone_verification' => (boolean)Helpers::get_business_settings('phone_verification') ?? 0,
             'currency_symbol_position' => Helpers::get_business_settings('currency_symbol_position') ?? 'right',
             'maintenance_mode' => (boolean)Helpers::get_business_settings('maintenance_mode') ?? 0,
-            'country' => Helpers::get_business_settings('country') ?? 'BD',
+            'country' => $countryName,
             'self_pickup' => (boolean)Helpers::get_business_settings('self_pickup') ?? 1,
             'delivery' => (boolean)Helpers::get_business_settings('delivery') ?? 1,
             'play_store_config' => [
